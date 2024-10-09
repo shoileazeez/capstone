@@ -36,7 +36,7 @@ CSRF_TRUSTED_ORIGINS = [
 SECRET_KEY = 'django-insecure-mc3c+e@+o8h!fym1u#zo-o+w*9rezk@#^2os6vky$ds+@)&-++'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '127.0.0.1', 
@@ -46,7 +46,7 @@ ALLOWED_HOSTS = [
     '0b82-102-88-83-210.ngrok-free.app',
     '9e3b-197-211-59-75.ngrok-free.app',
     '5564-102-89-46-61.ngrok-free.app',
-    '8f3f-102-89-34-105.ngrok-free.app',
+    'hardeynuga.pythonanywhere.com',
 ]
 
 

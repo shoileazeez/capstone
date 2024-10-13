@@ -41,12 +41,9 @@ DEBUG = False
 ALLOWED_HOSTS = [
     '127.0.0.1', 
     'localhost',  
-    'a8d0-102-89-34-148.ngrok-free.app',
-    '63d4-102-89-34-148.ngrok-free.app',
-    '0b82-102-88-83-210.ngrok-free.app',
-    '9e3b-197-211-59-75.ngrok-free.app',
-    '5564-102-89-46-61.ngrok-free.app',
     'hardeynuga.pythonanywhere.com',
+    'project.eu-north-1.elasticbeanstalk.com',
+    'proj.eu-north-1.elasticbeanstalk.com'
 ]
 
 

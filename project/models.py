@@ -46,7 +46,6 @@ class SellerProfile(models.Model):
         ("058", "Guaranty Trust Bank"),
         ("215", "Unity Bank"),
         ("221", "Stanbic IBTC Bank"),
-        ("100",  "Suntrust BanK"),
         ("232", "Sterling Bank"),
         ("033", "United Bank for Africa"),
         ("035", "Wema Bank"),
@@ -68,9 +67,6 @@ class SellerProfile(models.Model):
         ("070", "Fidelity Bank"),
         ("057", "Zenith Bank"),
         ("068", "Standard Chartered Bank"),
-        ('000001', 'Test Bank 1'),
-        ('000002', 'Test Bank 2'),
-        ('000003', 'Test Bank 3'),
         ('301',  'Jaiz Bank'),
     ]
 

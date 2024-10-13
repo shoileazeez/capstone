@@ -41,7 +41,7 @@ class PaymentInitializeView(APIView):
 
                 # Generate a unique reference if not provided
                 reference = serializer.validated_data.get('reference') or str(uuid.uuid4())
-                callback_url = "https://8f3f-102-89-34-105.ngrok-free.app/api/project/payment/callback/"
+                callback_url = "http://project.eu-north-1.elasticbeanstalk.com/api/project/payment/callback/"
 
                 # Call Paystack to initialize payment
                 response = Paystack.initialize_payment(email, amount, reference, callback_url, request)

@@ -43,6 +43,7 @@ ALLOWED_HOSTS = [
     'localhost',  
     'hardeynuga.pythonanywhere.com',
     'project.eu-north-1.elasticbeanstalk.com',
+    'ade.eu-north-1.elasticbeanstalk.com',
     'proj.eu-north-1.elasticbeanstalk.com'
 ]
 

@@ -116,6 +116,7 @@ class Product(models.Model):
     stock_quantity = models.IntegerField(default=0) 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
 
     def save(self, *args, **kwargs):
         if self.pk:  # Check if the object already exists (i.e., it's an update)
@@ -227,3 +228,11 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"Transaction {self.reference} - {self.status}"
+    
+    
+    
+    
+class Prouct(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    file = models.FileField(upload_to='uploads/')     

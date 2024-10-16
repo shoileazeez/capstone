@@ -36,6 +36,16 @@ from django.http import Http404
 # User Registration View
 class UserRegistrationView(APIView):
     permission_classes = [AllowAny]
+    
+    
+    def get(self, request):
+        # This will return an empty schema for the registration API
+        return Response({
+            'username': '',
+            'email': '',
+            'password': '',
+            'password_confirm': '',
+        }, status=status.HTTP_200_OK)
 
     def post(self, request):
         serializer = UserRegistrationSerializer(data=request.data)

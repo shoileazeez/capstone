@@ -17,17 +17,6 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://your-ngrok-url.ngrok.io',
-    'https://*.ngrok-free.app'
-    'https://9e3b-197-211-59-75.ngrok-free.app ',
-    'https://9e3b-197-211-59-75.ngrok-free.app', 
-    'https://9e3b-197-211-59-75.ngrok-free.app',
-    'https://5564-102-89-46-61.ngrok-free.app',
-    'http://5564-102-89-46-61.ngrok-free.app',
-    'https://8f3f-102-89-34-105.ngrok-free.app',
-    'http://8f3f-102-89-34-105.ngrok-free.app',
-]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -41,10 +30,10 @@ DEBUG = False
 ALLOWED_HOSTS = [
     '127.0.0.1', 
     'localhost',  
-    'hardeynuga.pythonanywhere.com',
-    'project.eu-north-1.elasticbeanstalk.com',
-    'ade.eu-north-1.elasticbeanstalk.com',
-    'proj.eu-north-1.elasticbeanstalk.com'
+    'myweb.eu-north-1.elasticbeanstalk.com',
+    'ecommerce.eu-north-1.elasticbeanstalk.com',
+    'myweb2.eu-north-1.elasticbeanstalk.com',
+    'proj.eu-north-1.elasticbeanstalk.com',
 ]
 
 
@@ -61,6 +50,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
     'project',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -115,14 +105,11 @@ REST_FRAMEWORK = {
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'New',
-        'USER': 'new',
-        'PASSWORD': 'Hardeynuga',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',  # This is the location of the SQLite database file
     }
 }
+
 
 
 # Password validation
@@ -159,7 +146,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -184,9 +171,63 @@ DEFAULT_FROM_EMAIL = 'shoabdulazeez@gmail.com'
 PAYSTACK_SECRET_KEY = 'sk_test_449b06a291136c5a7b507d7c1aa8362b93e7fb5a'
 PAYSTACK_PUBLIC_KEY = 'pk_test_79dcbd2bf7ef59e27e5ecc328455c3d3480c8838'
 PAYSTACK_BASE_URL = "https://api.paystack.co"
-PAYSTACK_CALLBACK_URL = "https://8f3f-102-89-34-105.ngrok-free.app/api/project/payment/callback/"
+PAYSTACK_CALLBACK_URL = "http://myweb2.eu-north-1.elasticbeanstalk.com/api/project/payment/callback/"
 PLATFORM_FEE_PERCENTAGE = 5
 
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+# SECURE_BROWSER_XSS_FILTER = True
+# X_FRAME_OPTIONS = 'DENY'
+# SECURE_CONTENT_TYPE_NOSNIFF = True
+# SECURE_SSL_REDIRECT = True  
+
+
+
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# AWS_STORAGE_BUCKET_NAME = 'elasticbeanstalk-eu-north-1-445567114681' 
+# AWS_ACCESS_KEY_ID = 'AKIAWPPO6TW4XD5GCO7E' 
+# AWS_SECRET_ACCESS_KEY = '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'  
+# AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+# AWS_S3_REGION_NAME = 'eu-north-1'  
+# STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+# MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+# # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+
+
+# # import os
+# # from pathlib import Path
+
+# # BASE_DIR = Path(__file__).resolve().parent.parent
+
+# # # AWS S3 Settings
+# # AWS_STORAGE_BUCKET_NAME = 'elasticbeanstalk-eu-north-1-445567114681'
+# # AWS_ACCESS_KEY_ID = 'AKIAWPPO6TW4XD5GCO7E'
+# # AWS_SECRET_ACCESS_KEY = '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'
+# # AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+# # AWS_S3_REGION_NAME = 'eu-north-1'
+
+# # # Static files (CSS, JavaScript, Images)
+# # STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+# # MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+
+# # # Local storage settings
+# # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Directory to collect static files
+
+# # # S3 storage settings
+# # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'  # Use S3 for static files
+
+# # # Optional: Specify custom settings for S3 if needed
+# # AWS_S3_OBJECT_PARAMETERS = {
+# #     'CacheControl': 'max-age=86400',
+# # }
+
+# # # Security settings (optional)
+# # AWS_QUERYSTRING_AUTH = False  # If you want to make the files publicly accessible without authentication

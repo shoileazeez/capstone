@@ -30,10 +30,10 @@ DEBUG = False
 ALLOWED_HOSTS = [
     '127.0.0.1', 
     'localhost',  
-    'myweb.eu-north-1.elasticbeanstalk.com',
-    'ecommerce.eu-north-1.elasticbeanstalk.com',
+    'hardeynuga.000.pe',
     'myweb2.eu-north-1.elasticbeanstalk.com',
     'proj.eu-north-1.elasticbeanstalk.com',
+    'meow2.eu-north-1.elasticbeanstalk.com',
 ]
 
 
@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
     'project',
-    'storages',
 ]
 
 MIDDLEWARE = [
@@ -61,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'commerce_api.urls'
@@ -179,55 +179,14 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# SECURE_BROWSER_XSS_FILTER = True
-# X_FRAME_OPTIONS = 'DENY'
-# SECURE_CONTENT_TYPE_NOSNIFF = True
-# SECURE_SSL_REDIRECT = True  
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = True  
 
 
 
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# AWS_STORAGE_BUCKET_NAME = 'elasticbeanstalk-eu-north-1-445567114681' 
-# AWS_ACCESS_KEY_ID = 'AKIAWPPO6TW4XD5GCO7E' 
-# AWS_SECRET_ACCESS_KEY = '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'  
-# AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-# AWS_S3_REGION_NAME = 'eu-north-1'  
-# STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
-# MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
-# # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
 
-
-# # import os
-# # from pathlib import Path
-
-# # BASE_DIR = Path(__file__).resolve().parent.parent
-
-# # # AWS S3 Settings
-# # AWS_STORAGE_BUCKET_NAME = 'elasticbeanstalk-eu-north-1-445567114681'
-# # AWS_ACCESS_KEY_ID = 'AKIAWPPO6TW4XD5GCO7E'
-# # AWS_SECRET_ACCESS_KEY = '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'
-# # AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-# # AWS_S3_REGION_NAME = 'eu-north-1'
-
-# # # Static files (CSS, JavaScript, Images)
-# # STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
-# # MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
-
-# # # Local storage settings
-# # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Directory to collect static files
-
-# # # S3 storage settings
-# # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'  # Use S3 for static files
-
-# # # Optional: Specify custom settings for S3 if needed
-# # AWS_S3_OBJECT_PARAMETERS = {
-# #     'CacheControl': 'max-age=86400',
-# # }
-
-# # # Security settings (optional)
-# # AWS_QUERYSTRING_AUTH = False  # If you want to make the files publicly accessible without authentication

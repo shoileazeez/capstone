@@ -38,6 +38,7 @@ ALLOWED_HOSTS = [
     'proj.eu-north-1.elasticbeanstalk.com',
     'staging.dntp0v6uhy8vn.amplifyapp.com',
     'capstone-gamma-six.vercel.app',
+    'capstone-tszo.onrender.com',
 ]
 
 

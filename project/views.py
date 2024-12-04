@@ -1,14 +1,12 @@
 from django.shortcuts import render
 from rest_framework import generics
 from . import serializers
-from .models import Profile , Product, CartItem, Cart, SellerProfile, Transaction, BuyerProfile
+from .models import Product, CartItem, Cart, SellerProfile, Transaction, BuyerProfile
 from .serializers import  UserRegistrationSerializer, ProductSerializer, ProductListSerializer, ProductDetailSerializer, ProductUpdateSerializer , ProductHistoryOverviewSerializer, SellerProductHistorySerializer,BuyerProfileUpdateSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework import status
-from decimal import Decimal
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from project.transaction_paystack.paystck import Paystack
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import CartSerializer, AddToCartSerializer, SellerProfileCreateSerializer, completeregistrationSerializer, buyerProfileSerializer, SellerProfileUpdateSerializer, BuyerTransactionSerializer, SellerTransactionSerializer, PaymentVerifySerializer
@@ -21,14 +19,10 @@ from .filters import ProductFilter, DateFilter
 from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from project.transaction_paystack import paystck
 from datetime import datetime
-from rest_framework.exceptions import NotFound
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.exceptions import ValidationError
-from django.db import IntegrityError
 from rest_framework.exceptions import PermissionDenied
 from django.http import Http404
 
@@ -36,17 +30,6 @@ from django.http import Http404
 # User Registration View
 class UserRegistrationView(APIView):
     permission_classes = [AllowAny]
-    
-    
-    def get(self, request):
-        # This will return an empty schema for the registration API
-        return Response({
-            'username': '',
-            'email': '',
-            'password': '',
-            'password_confirm': '',
-        }, status=status.HTTP_200_OK)
-
     def post(self, request):
         serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
@@ -94,7 +77,6 @@ class CompleteRegistrationView(generics.RetrieveUpdateAPIView):
 
     def put(self, request, *args, **kwargs):
         instance = self.get_object()
-        
         if instance.role_set_once:
             return Response({"detail": "Role can only be set once and cannot be changed."}, status=400)
         if instance.is_completed:

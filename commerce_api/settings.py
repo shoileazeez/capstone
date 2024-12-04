@@ -175,7 +175,7 @@ DEFAULT_FROM_EMAIL = 'shoabdulazeez@gmail.com'
 PAYSTACK_SECRET_KEY = 'sk_test_449b06a291136c5a7b507d7c1aa8362b93e7fb5a'
 PAYSTACK_PUBLIC_KEY = 'pk_test_79dcbd2bf7ef59e27e5ecc328455c3d3480c8838'
 PAYSTACK_BASE_URL = "https://api.paystack.co"
-PAYSTACK_CALLBACK_URL = "http://myweb2.eu-north-1.elasticbeanstalk.com/api/project/payment/callback/"
+PAYSTACK_CALLBACK_URL = "https://capstone-tszo.onrender.com/payment/callback/"
 PLATFORM_FEE_PERCENTAGE = 5
 
 

@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +36,6 @@ ALLOWED_HOSTS = [
     'myweb2.eu-north-1.elasticbeanstalk.com',
     'proj.eu-north-1.elasticbeanstalk.com',
     'staging.dntp0v6uhy8vn.amplifyapp.com',
-    'capstone-gamma-six.vercel.app',
     'capstone-tszo.onrender.com',
 ]
 
@@ -109,17 +107,12 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.parse(
-        os.getenv('DATABASE_URL'), 
-        conn_max_age=600
-    )
-}
-
-DATABASES['default']['OPTIONS'] = {
-    'ssl': {
-        'ca': 'ca (3).pem',
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',  # This is the location of the SQLite database file
     }
 }
+
 
 
 # Password validation

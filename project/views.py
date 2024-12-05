@@ -149,8 +149,9 @@ class SellerProfileCreateView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=user)  # Associate the created profile with the user
+        return Response({'message':"profile created successfully"}, status=status.HTTP_201_CREATED)
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(serializer.data, status=status.HTTP_201_CREATED)
         
         # Create the SellerProfile associated with the authenticated user
         # serializer.save(user=user)
@@ -171,7 +172,7 @@ class SellerProfileUpdateView(generics.UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
-        return Response(serializer.data)
+        return Response({'message':"profile update was  successful"})
 class BuyerProfileCreateView(generics.CreateAPIView):
     queryset = BuyerProfile.objects.all()
     serializer_class = buyerProfileSerializer
@@ -182,7 +183,7 @@ class BuyerProfileCreateView(generics.CreateAPIView):
         # Ensure no duplicate profiles for the same user
         if not BuyerProfile.objects.filter(user=user).exists():
             serializer.save(user=user)
-            return Response({'message':"profile created successfully"})
+            return Response({'message':"profile created successfully"}, status=status.HTTP_201_CREATED)
         else:
             return Response(
                 {'error': 'Profile already exists for this user'},
@@ -201,6 +202,7 @@ class BuyerProfileUpdateView(generics.UpdateAPIView):
     def perform_update(self, serializer):
         # Perform the update if needed, but it's usually handled by the serializer
         serializer.save()
+        return Response({'message':"profile updated successfully"})
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]  # Ensure the user is authenticated

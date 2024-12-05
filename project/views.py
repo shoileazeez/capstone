@@ -85,6 +85,7 @@ class CompleteRegistrationView(generics.RetrieveUpdateAPIView):
         serializer = self.get_serializer(instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        return Response({'message':"registration completed  successfully"})
         if not instance.is_completed:
             instance.is_completed = True 
             instance.save()
@@ -181,7 +182,7 @@ class BuyerProfileCreateView(generics.CreateAPIView):
         # Ensure no duplicate profiles for the same user
         if not BuyerProfile.objects.filter(user=user).exists():
             serializer.save(user=user)
-            return Response({'message':"profile created successfully"}),
+            return Response({'message':"profile created successfully"})
         else:
             return Response(
                 {'error': 'Profile already exists for this user'},

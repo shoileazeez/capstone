@@ -32,12 +32,10 @@ class buyerProfileSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username',read_only = True)
     password = serializers.CharField(source='user.password', read_only = True)
     profile_photo = serializers.ImageField(required=False, allow_null=True)
-    first_name = serializers.CharField(source='user.first_name', required=True)
-    last_name = serializers.CharField(source='user.last_name', required=True)
     
     class Meta:
         model = BuyerProfile
-        fields = ['username', 'email', 'password', 'profile_photo', 'first_name', 'last_name','address', 'phone']
+        fields = ['username', 'email', 'password', 'profile_photo', 'address', 'phone']
         read_only_fields = ['role', 'username', 'email']
         
         
@@ -52,7 +50,7 @@ class buyerProfileSerializer(serializers.ModelSerializer):
             
         # Use existing user if already created
         Buyer_profile = BuyerProfile.objects.create(user=user, **validated_data)  # Create seller profile
-        return {"profile created successfully"}
+        return Buyer_profile
     
     def to_representation(self, instance):
         """Customize the output representation."""
@@ -63,13 +61,11 @@ class buyerProfileSerializer(serializers.ModelSerializer):
 class SellerProfileCreateSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(source='user.email', read_only = True)
     username = serializers.CharField(source='user.username', read_only = True)
-    first_name = serializers.CharField(source='user.first_name', required=True)
-    last_name = serializers.CharField(source='user.last_name', required=True)
     profile_photo = serializers.ImageField(required=False, allow_null=True)
 
     class Meta:
         model = SellerProfile
-        fields = ['username', 'email', 'first_name', 'last_name', 'profile_photo', 'bank_code', 'account_number', 'account_name']
+        fields = ['username', 'email', 'profile_photo', 'bank_code', 'account_number', 'account_name']
         read_only_fields = ['role', 'username', 'email']
     def validate_account_number(self, value):
         if len(value) != 10:
@@ -86,23 +82,17 @@ class SellerProfileCreateSerializer(serializers.ModelSerializer):
             user = User.objects.get(id=self.context['request'].user.id)  # Ensure user is resolved
         else:
             user = self.context['request'].user
-            
-          
-
-        # Use existing user if already created
         seller_profile = SellerProfile.objects.create(user=user, **validated_data)  # Create seller profile
-        return {"profile created successfully"}
+        return seller_profile
     
 class SellerProfileUpdateSerializer(serializers.ModelSerializer):
-    first_name = serializers.CharField(source='user.first_name', required=False)
-    last_name = serializers.CharField(source='user.last_name', required=False)
     email = serializers.EmailField(source='user.email', read_only=True)  # Read-only for email
     username = serializers.CharField(source='user.username', read_only=True)  # Read-only for username
     role = serializers.CharField(source='user.role', read_only=True)
 
     class Meta:
         model = SellerProfile
-        fields = ['username', 'email', 'first_name', 'last_name', 'profile_photo', 'role', 'bank_code', 'account_number', 'account_name']
+        fields = ['username', 'email', 'profile_photo', 'role', 'bank_code', 'account_number', 'account_name']
         read_only_fields = ['role']
 
     def validate_account_number(self, value):
@@ -135,21 +125,16 @@ class SellerProfileUpdateSerializer(serializers.ModelSerializer):
             if paystack_response['status']:
                 instance.paystack_recipient_code = paystack_response['data']['recipient_code']
                 instance.save()
-        return instance  
-
-        instance.save()  # Save the seller profile instance
-        return instance    
+        return instance   
 
 class BuyerProfileUpdateSerializer(serializers.ModelSerializer):
-    first_name = serializers.CharField(source='user.first_name', required=False)
-    last_name = serializers.CharField(source='user.last_name', required=False)
     email = serializers.EmailField(source='user.email', read_only=True)  # Read-only for email
     username = serializers.CharField(source='user.username', read_only=True)  # Read-only for username
     role = serializers.CharField(source='user.role', read_only=True)
 
     class Meta:
         model = BuyerProfile
-        fields = ['username', 'email', 'first_name', 'last_name', 'profile_photo', 'role', 'address', 'phone']
+        fields = ['username', 'email', 'profile_photo', 'role', 'address', 'phone']
         read_only_fields = ['role']
 
 

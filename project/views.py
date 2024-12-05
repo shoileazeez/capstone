@@ -171,24 +171,34 @@ class SellerProfileUpdateView(generics.UpdateAPIView):
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-
         return Response({'message':"profile update was  successful"})
 class BuyerProfileCreateView(generics.CreateAPIView):
     queryset = BuyerProfile.objects.all()
     serializer_class = buyerProfileSerializer
     permission_classes = [IsAuthenticated, IsBuyer]
     
-    def perform_create(self, serializer):
+    def create(self, request, *args, **kwargs):
         user = self.request.user
         # Ensure no duplicate profiles for the same user
-        if not BuyerProfile.objects.filter(user=user).exists():
-            serializer.save(user=user)
-            return Response({'message':"profile created successfully"}, status=status.HTTP_201_CREATED)
-        else:
+        if BuyerProfile.objects.filter(user=user).exists():
             return Response(
                 {'error': 'Profile already exists for this user'},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
+        # Proceed with the default behavior if no profile exists
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        
+        # Return a custom response
+        return Response(
+            {'message': 'Profile created successfully'},
+            status=status.HTTP_201_CREATED
+        )
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
             
 class BuyerProfileUpdateView(generics.UpdateAPIView):
     queryset = BuyerProfile.objects.all()
@@ -196,14 +206,35 @@ class BuyerProfileUpdateView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated, IsBuyer]
     
     def get_object(self):
-        # Fetch the profile of the logged-in user
-        return get_object_or_404(BuyerProfile, user=self.request.user)
+        # Attempt to fetch the profile of the logged-in user
+        try:
+            return BuyerProfile.objects.get(user=self.request.user)
+        except BuyerProfile.DoesNotExist:
+            # Return a custom response if the profile does not exist
+            self.handle_no_profile_error()
 
-    def perform_update(self, serializer):
-        # Perform the update if needed, but it's usually handled by the serializer
-        serializer.save()
-        return Response({'message':"profile updated successfully"})
+    def handle_no_profile_error(self):
+        # Custom response for missing profile
+        raise Response(
+            {'error': 'Profile does not exist for this user. Please create a profile first.'},
+            status=status.HTTP_404_NOT_FOUND
+        )
 
+    def update(self, request, *args, **kwargs):
+        # Fetch the object to update
+        partial = kwargs.pop('partial', False)  # For partial updates
+        instance = self.get_object()
+        
+        # Validate and update the instance using the serializer
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        
+        # Return a custom response
+        return Response(
+            {'message': 'Profile updated successfully'},
+            status=status.HTTP_200_OK
+        )
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]  # Ensure the user is authenticated
 

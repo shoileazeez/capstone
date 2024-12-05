@@ -52,7 +52,7 @@ class buyerProfileSerializer(serializers.ModelSerializer):
             
         # Use existing user if already created
         Buyer_profile = BuyerProfile.objects.create(user=user, **validated_data)  # Create seller profile
-        return Buyer_profile
+        return {"profile created successfully"}
     
     def to_representation(self, instance):
         """Customize the output representation."""
@@ -91,7 +91,7 @@ class SellerProfileCreateSerializer(serializers.ModelSerializer):
 
         # Use existing user if already created
         seller_profile = SellerProfile.objects.create(user=user, **validated_data)  # Create seller profile
-        return seller_profile
+        return {"profile created successfully"}
     
 class SellerProfileUpdateSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source='user.first_name', required=False)
@@ -356,12 +356,7 @@ class AddToCartSerializer(serializers.Serializer):
             cart_item.quantity += validated_data['quantity']
         else:
             cart_item.quantity = validated_data['quantity']
-        cart_item.save()
-
-        # Update product stock
-        
-
-        return cart_item        
+        cart_item.save()        
     
 
 class BuyerTransactionSerializer(serializers.ModelSerializer):

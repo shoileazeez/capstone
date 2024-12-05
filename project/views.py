@@ -181,20 +181,13 @@ class BuyerProfileCreateView(generics.CreateAPIView):
         # Ensure no duplicate profiles for the same user
         if not BuyerProfile.objects.filter(user=user).exists():
             serializer.save(user=user)
+            return Response({'message':"profile created successfully"}),
         else:
             return Response(
                 {'error': 'Profile already exists for this user'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-
-        # Create a new seller profile
-        # serializer = self.get_serializer(data=request.data)
-        # serializer.is_valid(raise_exception=True)
-        # serializer.save(user=user)  # Associate the created profile with the user
-
-        # return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
-
+            
 class BuyerProfileUpdateView(generics.UpdateAPIView):
     queryset = BuyerProfile.objects.all()
     serializer_class = BuyerProfileUpdateSerializer
@@ -260,6 +253,7 @@ class ProductCreateView(generics.CreateAPIView):
     def perform_create(self, serializer):
         # Set the current user as the owner of the product
         serializer.save(seller=self.request.user)
+        return Response({"message": "product created succesfully."})
 
 class ProductUpdateView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated, IsSeller, IsOwnerOrReadOnly] 
@@ -269,11 +263,13 @@ class ProductUpdateView(generics.UpdateAPIView):
     def perform_update(self, serializer):
         # Any additional logic before saving can be added here
         serializer.save()  # Save the updated product
+        return Response({"message": "product update was  succesfully."})
  
 class ProductDeleteView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated, IsSeller, IsOwnerOrReadOnly] 
     queryset = Product.objects.all()
     serializer_class = ProductListSerializer
+    
     
 class ProductDetailView(generics.RetrieveAPIView):
     permission_classes = [IsOwnerOrReadOnly, IsAuthenticated]
@@ -362,6 +358,7 @@ class AddToCartView(generics.CreateAPIView):
     def perform_create(self, serializer):
         """Handle adding an item to the cart."""
         serializer.save()
+        return Response({"message": "product added to cart succesfully."})
 
 class RemoveFromCartView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated, IsBuyer]
@@ -374,6 +371,7 @@ class RemoveFromCartView(generics.DestroyAPIView):
         try:
             cart = Cart.objects.get(buyer=user)  # Get the cart for the authenticated buyer
             return CartItem.objects.get(cart=cart, product_id=product_id)  # Get the cart item
+            return Response({"message": "product deleted ."})
         except Cart.DoesNotExist:
             # If the cart doesn't exist, return a 404 error
             raise Http404("Cart does not exist.")
@@ -390,7 +388,7 @@ class RemoveFromCartView(generics.DestroyAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 class UpdateCartItemView(generics.UpdateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsBuyer]
     serializer_class = AddToCartSerializer  # You can reuse the same serializer to handle updates
 
     def get_object(self):
@@ -412,6 +410,7 @@ class UpdateCartItemView(generics.UpdateAPIView):
             if product.stock_quantity < (new_quantity - instance.quantity):
                 raise serializers.ValidationError("Not enough stock available.")
             product.stock_quantity -= (new_quantity - instance.quantity)  # Update stock accordingly
+            return Response({"message": "product added to cart successfully ."})
         else:
             # If decreasing, restore stock
             product.stock_quantity += (instance.quantity - new_quantity)

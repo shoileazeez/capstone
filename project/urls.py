@@ -29,7 +29,6 @@ urlpatterns = [
     path('seller/profile/create/', SellerProfileCreateView.as_view(), name='create-seller-profile'),
     path('transactions/buyer/', BuyerTransactionListView.as_view(), name='buyer-transaction-list'),
     path('transactions/seller/', SellerTransactionListView.as_view(), name='seller-transaction-list'),
-    path('seller/profile/', buyerProfileRetrieveView.as_view(), name='seller-profile-create'),
     path('payment/initialize/', PaymentInitializeView.as_view(), name='payment-initialize'),
     path('payment/callback/', PaymentCallbackView.as_view(), name='payment-callback'),
 ]

@@ -112,7 +112,7 @@ DATABASES = {
         'NAME': 'commerce_z8ga',
         'USER': 'hardeynuga',
         'PASSWORD': 'wN1WJ1G5Nl09uTBYw2g62Zlv1OfqCuqh',
-        'HOST': 'dpg-cstkeht6l47c73em7h40-a',
+        'HOST': 'dpg-cstkeht6l47c73em7h40-a.oregon-postgres.render.com',
         'PORT': '5432'
     }
 }

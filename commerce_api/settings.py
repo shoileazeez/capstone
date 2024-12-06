@@ -108,8 +108,12 @@ REST_FRAMEWORK = {
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',  # This is the location of the SQLite database file
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'commerce_z8ga',
+        'USER': 'hardeynuga',
+        'PASSWORD': 'wN1WJ1G5Nl09uTBYw2g62Zlv1OfqCuqh',
+        'HOST': 'dpg-cstkeht6l47c73em7h40-a',
+        'PORT': '5432'
     }
 }
 

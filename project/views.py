@@ -386,13 +386,26 @@ class CartView(generics.RetrieveAPIView):
     
 @method_decorator(csrf_exempt, name='dispatch')
 class AddToCartView(generics.CreateAPIView):
+    """
+    API view to add a product to the cart. 
+    Only accessible to authenticated buyers.
+    """
     serializer_class = AddToCartSerializer
     permission_classes = [IsAuthenticated, IsBuyer]
 
+    def create(self, request, *args, **kwargs):
+        """Handle adding an item to the cart and return a custom response."""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(
+            {"message": "Product added to cart successfully."}, 
+            status=status.HTTP_201_CREATED
+        )
+
     def perform_create(self, serializer):
-        """Handle adding an item to the cart."""
+        """Save the cart item."""
         serializer.save()
-        return Response({"message": "product added to cart succesfully."})
 
 class RemoveFromCartView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated, IsBuyer]
